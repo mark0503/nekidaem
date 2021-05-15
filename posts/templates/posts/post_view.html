@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <h1>Название: {{ post.text }}</h1>
+        <h3>Текст: {{ post.description }}</h3>
+        <h1>Автор:<a href="{% url 'profile' post.author %}">{{ post.author }}</a></h1>
+        <p>Дата создания: {{ post.pub_date|date:"d.m.Y"|linebreaksbr }}</p>
+
+{% endblock %}

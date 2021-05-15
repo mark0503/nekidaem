@@ -1,0 +1,22 @@
+{% extends "base.html" %} 
+{% block title %} Последние обновления {% endblock %}
+
+{% block content %}
+    
+        {% include "menu.html" with index=True %}
+           <h1> избранное</h1>
+                {% for post in page %}
+                    <a  href="{% url 'post_view' post.id %}">{{ post.text }}</a>
+                    {{ post.pub_date }}
+                    <a href="{% url 'profile' post.author %}">{{ post.author }}</a>
+                    {% if not forloop.last %}<hr>{% endif %} 
+                {% endfor %} 
+
+    
+
+        <!-- Вывод паджинатора -->
+        {% if page.has_other_pages %}
+            {% include "paginator.html" with items=page paginator=paginator%}
+        {% endif %}
+
+{% endblock %} 

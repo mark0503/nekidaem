@@ -1,0 +1,16 @@
+{% if username.is_authenticated %} 
+<div>
+    <ul>
+        <li>
+            <a href="{% url 'index' %}">
+                  Все авторы
+            </a>
+        </li>
+        <li>
+            <a class="nav-link {% if follow %}active{% endif %}" href="/follow">
+                Избранные авторы
+            </a>
+        </li>
+    </ul>
+</div>
+{% endif %} 

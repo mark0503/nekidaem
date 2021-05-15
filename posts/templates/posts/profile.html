@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Профиль пользователя{% endblock %}
+{% block header %}Профиль пользователя {{ username.username }}{% endblock %}
+{% block content %}
+{% if user != username %}
+    {% if user.is_authenticated %}                                                    
+        {% if following %}
+    <a class="btn btn-lg btn-light" 
+        href="{% url 'profile_unfollow' username.username  %}" role="button"> 
+        Отписаться 
+        </a> 
+        {% else %}
+        <a class="btn btn-lg btn-primary" 
+        href="{% url 'profile_follow' username.username %}" role="button">
+        Подписаться 
+        </a>
+        {% endif %}
+    {% endif %}
+{% endif %}
+
+                <!-- Начало блока с отдельным постом -->
+                {% for post in page %}
+                    <h1><a  href="{% url 'post_view' post.id %}">{{ post.text }}</a></h1>
+                    {{ post.text }}<br>
+                    {{ post.pub_date }}<br>
+                    <h3>Текст: {{ post.description }}</h3>
+                    {% if request.user.id is post.author.id %}
+                    <a  href="{% url 'post_edit' username.username post.id %}"role="button">Редактировать</a> <br>
+                        <a class="btn btn-sm text-muted" href="{% url 'post_delete' post.id %}"role="button">Удалить</a> <br>
+                    {% endif %} 
+                    {% if not forloop.last %}<hr>{% endif %}
+                {% endfor %}
+                <!-- Остальные посты -->
+
+        {% if page.has_other_pages %}
+        {% include "paginator.html" with items=page paginator=paginator%}
+        {% endif %}
+{% endblock %}
